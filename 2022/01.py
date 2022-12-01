@@ -27,9 +27,12 @@ def solve_part2(elves: list[int]) -> int:
     elves.sort()
     elves.reverse()
     return elves[0] + elves[1] + elves[2]
+    # alternative:
+    # elf_count = len(elves)
+    # return elves[elf_count - 1] + elves[elf_count - 2] + elves[elf_count - 3]
 
 
 input = get_data("01.txt")
 elves = count_calories(input)
-print("Part 2: " + str(solve_part1(elves)))
-print("Part 1: " + str(solve_part2(elves)))
+print("Part 1: " + str(solve_part1(elves)))
+print("Part 2: " + str(solve_part2(elves)))
