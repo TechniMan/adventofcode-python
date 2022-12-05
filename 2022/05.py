@@ -1,3 +1,5 @@
+import copy
+
 def get_data(filename: str) -> list[str]:
     with open(filename) as file:
         return [line for line in list(file)]
@@ -17,6 +19,33 @@ def solve_part1(start_state: list[list[chr]], instructions: list[str]) -> str:
     top_row = ""
     for stack in state:
         top_row = top_row + stack.pop()
+    return top_row
+
+
+# start_state is a list of stacks of the crates' letters
+# each instruction is a string formatted thus: "quantity,origin,destination"
+def solve_part2(start_state: list[list[chr]], instructions: list[str]) -> str:
+    state: list[list[chr]] = start_state
+    # follow instructions
+    for instruction in instructions:
+        [quantity, origin, destination] = instruction.split(',')
+        to_move = []
+        # move the number of crates required or all the crates if fewer remain
+        move_count = min(int(quantity), len(state[int(origin)]))
+        for i in range(move_count):
+            # pop off of origin stack and append onto destination stack
+            to_move.append(state[int(origin)].pop())
+        # reverse ready to add on
+        to_move.reverse()
+        for i in range(int(move_count)):
+            state[int(destination)].append(to_move[i])
+    # determine top crate of each stack
+    top_row = ""
+    for stack in state:
+        if len(stack) > 0:
+            top_row = top_row + stack[len(stack) - 1]
+        else:
+            top_row = top_row + " "
     return top_row
 
 
@@ -70,4 +99,9 @@ for line in instructions_lines:
     instructions.append(instruction)
     # print(instruction)
 
-print(solve_part1(start_state, instructions))
+print(str(start_state))
+p1 = copy.deepcopy(start_state)
+print(solve_part1(p1, instructions))
+print(str(start_state))
+p2 = copy.deepcopy(start_state)
+print(solve_part2(p2, instructions))
