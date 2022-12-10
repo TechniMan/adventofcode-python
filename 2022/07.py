@@ -145,8 +145,13 @@ def solve_part1(root: Directory) -> int:
 
 
 def solve_part2(root: Directory) -> int:
-    size_required = 70000000 - root.get_total_size()
-    find_dirs_larger_than(size_required, root)
+    free_space = 70000000 - root.get_total_size()
+    space_required = 30000000 - free_space
+    print(f"Total space: 70,000,000")
+    print(f"Used space : {root.get_total_size()}")
+    print(f"Free space : {free_space}")
+    print(f"Required space: {space_required}")
+    find_dirs_larger_than(space_required, root)
     smallest: int = 70000000
     for d in dirs_larger_than:
         if d.get_total_size() < smallest:
